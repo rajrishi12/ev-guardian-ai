@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------
+   EV Guardian AI — Design Tokens
+   Dark, glassmorphic, enterprise-grade. Signature: mono-set telemetry
+   data (vehicle IDs, %, coordinates) reads like a real fleet-ops
+   terminal; sans for everything conversational/structural.
+   ------------------------------------------------------------------- */
+
+:root {
+  /* Surfaces */
+  --background: #070a10;
+  --surface: #0f1623;
+  --surface-elevated: #141d2e;
+  --surface-glass: rgba(20, 29, 46, 0.55);
+  --border-subtle: rgba(148, 163, 184, 0.12);
+  --border-default: rgba(148, 163, 184, 0.18);
+
+  /* Text */
+  --foreground: #e8edf5;
+  --foreground-muted: #94a3b8;
+  --foreground-dim: #5b6678;
+
+  /* Signal colors */
+  --signal-positive: #00e5a0;
+  --signal-positive-dim: rgba(0, 229, 160, 0.14);
+  --signal-warning: #f5a524;
+  --signal-warning-dim: rgba(245, 165, 36, 0.14);
+  --signal-critical: #ff5c5c;
+  --signal-critical-dim: rgba(255, 92, 92, 0.14);
+  --signal-info: #3b82f6;
+  --signal-info-dim: rgba(59, 130, 246, 0.14);
+  --signal-agent: #a78bfa;
+  --signal-agent-dim: rgba(167, 139, 250, 0.14);
+
+  /* Radii */
+  --radius: 0.625rem;
+  --radius-sm: 0.375rem;
+  --radius-lg: 1rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-dim: var(--foreground-dim);
+  --color-positive: var(--signal-positive);
+  --color-warning: var(--signal-warning);
+  --color-critical: var(--signal-critical);
+  --color-info: var(--signal-info);
+  --color-agent: var(--signal-agent);
+
+  --font-sans: "Inter", "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  --radius-sm: var(--radius-sm);
+  --radius: var(--radius);
+  --radius-lg: var(--radius-lg);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: radial-gradient(
+      circle at 15% 0%,
+      rgba(59, 130, 246, 0.07) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 100%,
+      rgba(0, 229, 160, 0.05) 0%,
+      transparent 50%
+    ),
+    var(--background);
+  background-attachment: fixed;
+  font-family: var(--font-sans);
+}
+
+* {
+  border-color: var(--border-subtle);
+}
+
+/* Glass panel utility — the core surface treatment used everywhere */
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+.glass-panel-flat {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+/* Mono data treatment — telemetry, IDs, coordinates, percentages */
+.data-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.01em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.32);
+}
+
+/* Focus visibility (accessibility floor) */
+:focus-visible {
+  outline: 2px solid var(--signal-info);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Fleet heartbeat signature element */
+@keyframes heartbeat-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scaleY(0.4);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.heartbeat-bar {
+  animation: heartbeat-pulse 1.8s ease-in-out infinite;
+}
