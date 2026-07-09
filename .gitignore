@@ -35,3 +35,5 @@ out/
 .vscode/
 .idea/
 *.log
+# --- Documentation ---
+docs/
