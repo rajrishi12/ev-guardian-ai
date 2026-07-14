@@ -13,7 +13,7 @@ among several specialist agents.
 """
 
 import os
-import json
+import re
 import logging
 import requests
 from sqlalchemy.orm import Session
@@ -289,7 +289,7 @@ def run_chat_agent(db: Session, user_message: str, history: list[dict] | None = 
             fb = _fallback_response(db, user_message)
             fb["mode"] = "fallback_timeout"
             return fb
-        except Exception as e:
+        except Exception:
             logger.exception("Unexpected error calling Gemini, falling back to rule-based responder")
             fb = _fallback_response(db, user_message)
             fb["mode"] = "fallback_error"
@@ -340,8 +340,6 @@ def run_chat_agent(db: Session, user_message: str, history: list[dict] | None = 
         "mode": "gemini_max_steps",
     }
 
-
-import re
 
 GREETING_PATTERNS = re.compile(
     r"^\s*(hi+|hello+|hey+|yo|sup|good\s?(morning|afternoon|evening)|namaste|howdy)\b[\s!.?]*$",

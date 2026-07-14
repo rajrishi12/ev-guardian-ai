@@ -31,9 +31,6 @@ from typing import TypedDict, Optional
 from sqlalchemy.orm import Session
 
 from langgraph.graph import StateGraph, END
-
-logger = logging.getLogger("ev_guardian.graph")
-
 from app.agents.chat_agent import (
     _tool_get_fleet_overview,
     _tool_get_high_risk_vehicles,
@@ -42,6 +39,8 @@ from app.agents.chat_agent import (
 )
 from app.models.models import Vehicle, MaintenanceEvent
 from app.routers.procurement import _build_recommendation
+
+logger = logging.getLogger("ev_guardian.graph")
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 # See app/agents/chat_agent.py for why this isn't gemini-2.0-flash anymore

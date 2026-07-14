@@ -1,6 +1,8 @@
 # --- Secrets ---
 .env
 .env.local
+.env.production
+.env.*.local
 *.pem
 *.key
 
@@ -11,6 +13,8 @@ __pycache__/
 venv/
 *.egg-info/
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
 
 # --- AI / LangGraph ---
 .langgraph/
@@ -18,6 +22,8 @@ venv/
 # --- Node / Next.js ---
 node_modules/
 .next/
+dist/
+build/
 out/
 *.tsbuildinfo
 .turbo/
@@ -32,8 +38,7 @@ out/
 
 # --- OS / editor ---
 .DS_Store
+Thumbs.db
 .vscode/
 .idea/
 *.log
-# --- Documentation ---
-docs/
