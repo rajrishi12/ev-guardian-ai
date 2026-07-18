@@ -46,16 +46,6 @@ EV Guardian AI combines a FastAPI backend, a Next.js web experience, and ML-powe
 - ML: XGBoost-based regression and classification models
 - AI Assistant: Gemini-powered responses with a rule-based fallback for offline/demo use
 
-## Verified Capabilities
-- 100 EVs, 20 suppliers, 13,344 telemetry rows, and 1,800 manufacturing inspection batches (with 6 injected process-drift events) seeded locally
-- Battery SOH regressor + failure classifier trained and serving live predictions (metrics printed by `train_battery_model.py`)
-- Manufacturing defect-risk classifier trained and serving live predictions — precision/recall/F1/ROC-AUC reported at `/api/manufacturing/qc/model-performance` (metrics printed by `train_quality_model.py`)
-- SPC control-chart drift detection flags out-of-control process parameters per supplier at `/api/manufacturing/qc/drift`
-- Electrification-readiness scoring validated against an independent baseline heuristic at `/api/procurement/readiness-validation` (band agreement %, mean index difference, correlation)
-- Carbon accounting logic implemented for Scope 1/2/3 reporting
-- 17 automated API tests (`apps/api/tests/`, run with `pytest`) covering fleet, battery, procurement, carbon, supply-chain, and manufacturing endpoints against an isolated test database
-- End-to-end local demo path available with either SQLite or a persistent database
-
 ## Local Run Guide
 ### 1. Configure environment variables
 Create a local environment file in [apps/api](apps/api) with:
@@ -113,19 +103,6 @@ To get the actual AI-powered assistant:
 2. Add it to `apps/api/.env` (copy from `.env.example` first): `GEMINI_API_KEY=your_key_here`.
 3. Restart the backend. Visit `/assistant` in the app — a badge in the top-right of the chat card shows **"AI mode (Gemini)"** vs **"Rule-based mode"** so it's never ambiguous which is answering. You can also check `GET /api/chat/status` directly.
 
-**Model name gotcha:** the model is set via `GEMINI_MODEL` (default `gemini-2.5-flash`) in both `app/agents/chat_agent.py` and `app/agents/graph.py`. Google has deprecated Gemini models mid-project before (`gemini-2.0-flash` was shut down 2026-06-01) — if the assistant silently falls back to rule-based mode even with a key set, check the backend logs for a `GeminiConfigError` / HTTP 404, and check [the current model list](https://ai.google.dev/gemini-api/docs/models) before assuming the key itself is bad.
 - The app reads both `GEMINI_API_KEY` and `DATABASE_URL` from the environment.
 - For demos and local testing, SQLite is the fastest option; for a more persistent deployment-style setup, PostgreSQL is recommended.
 
-## Demo Flow
-1. Open the executive dashboard to show the overall fleet health and risk picture.
-2. Navigate to battery intelligence to demonstrate degradation and failure prediction.
-3. Move to maintenance and procurement to show how predictions become operational decisions.
-4. Open supply-chain and manufacturing views to highlight resilience and quality risk monitoring.
-5. Finish with carbon intelligence to demonstrate sustainability impact and auditable reporting.
-
-## Notes for Submission
-- Demo credentials: `Password123!` for seeded users
-- Set `GEMINI_API_KEY` for a live AI assistant experience during the demo
-- Use `DATABASE_URL` to point the backend at SQLite for quick local runs or PostgreSQL for a persistent database-backed setup
-- The project is designed to run locally with minimal setup while still supporting a more production-like configuration
